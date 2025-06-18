@@ -97,10 +97,22 @@ mlp = mynn.train_mlp(X_train, X_val, y_train, y_val, output_dir=outdir_mlp)
 ```
 This function is defined inside [`trisepmltutorial/mlp.py`](trisepmltutorial/mlp.py). Have a look at the file and read through the code. Do you understand how the network is defined?
 
- - Exercise: try to increase the number of nodes in the hidden layers. Is the network doing better for classification? Or worse?
- - Exercise: try to increase the learning rate. How is the learning time improving?
- - Exercise: try to prevent overtraining by adding dropout on neurons layers.
+After the training is done, you should see the trained network inside `models/mlp`. To make plots of the output scores, learning curves and ROC curves, just run
+```bash
+python scripts/plot_mlp.py
+```
+
+A few questions:
+  - Was the model overtrained? How do we know that?
+  - Which features are found to be the most important after the training?
+
+A few exercies:
+1. Try to increase the number of nodes in the hidden layers to 128 inside [trisepmltutorial/mlp.py](trisepmltutorial/mlp.py). Is the network doing better for classification after training? Or worse?
+2. Exercise: try to increase the learning rate. Is the learning time improving? Is the precision better?
+3. Exercise: try to prevent overtraining by adding dropout on neurons layers.
 
 ## Exercise 3: Boosted Decision Tree (BDT) for Higgs classification
+TO ADD
 
-## Exercise 4: Comparisons of ML and BDT performance
+## Exercise 4: Comparisons of MLP and BDT performance
+Try to compare the ROC curves of the MLP and the BDT. Which one is performing better? Why?
