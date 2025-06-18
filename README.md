@@ -66,8 +66,40 @@ If you prefer to run the tutorial on your own computer:
     ```
 
 ## Exercise 1: Exploring the dataset
+The data for the exercise are collected in side `data/dataWW_d1.root`. This is a dataset composed of signal and background events for a Higgs analysis decaying to two W bosons ($H\to W^+W^-$). Inside this dataset there are many different variables that we want to explore. For this task, have a look at [`scripts/explore.py`](scripts/explore.py) and look at the figures produced by the script. Do you see which variables provide the highest discriminating power between background and signal? 
+
 
 ## Exercise 2: Multi-layer perceptron (MLP) for Higgs classification
+
+To run the exercise simply run
+```bash
+python scripts/train.py
+```
+This is done inside [`trisepmltutorial/dataset.py`](trisepmltutorial/dataset.py). For the first step, we will include in the network the following data features:
+```python
+features = [
+    "met_et",
+    "met_phi",
+    "lep_pt_0",
+    "lep_pt_1",
+    "lep_eta_0",
+    "lep_eta_1",
+    "lep_phi_0",
+    "lep_phi_1",
+    "jet_n",
+    "jet_pt_0",
+    "jet_pt_1",
+]
+```
+The training of the network is done through
+```bash
+mlp = mynn.train_mlp(X_train, X_val, y_train, y_val, output_dir=outdir_mlp)
+```
+This function is defined inside [`trisepmltutorial/mlp.py`](trisepmltutorial/mlp.py). Have a look at the file and read through the code. Do you understand how the network is defined?
+
+ - Exercise: try to increase the number of nodes in the hidden layers. Is the network doing better for classification? Or worse?
+ - Exercise: try to increase the learning rate. How is the learning time improving?
+ - Exercise: try to prevent overtraining by adding dropout on neurons layers.
 
 ## Exercise 3: Boosted Decision Tree (BDT) for Higgs classification
 

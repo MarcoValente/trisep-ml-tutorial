@@ -16,7 +16,7 @@ def train_mlp(
     X_train, X_val,
     y_train, y_val,
     # w_train, w_val,
-    num_epochs=10,
+    num_epochs=20,
     output_dir='mlp'
     ):
     # output directory
@@ -44,13 +44,14 @@ def train_mlp(
     print('-'*100)
 
     # Define a simple neural network model
+    nodes_in_hidden_layers = 5
     model = nn.Sequential(
-        nn.Linear(X_train.shape[1], 128),  # 1st hidden layer
+        nn.Linear(X_train.shape[1], nodes_in_hidden_layers),  # 1st hidden layer
         nn.ReLU(),  # Activation function
-        nn.Linear(128, 128),  # 2nd hidden layer
+        nn.Linear(nodes_in_hidden_layers, nodes_in_hidden_layers),  # 2nd hidden layer
         nn.ReLU(),  # Activation function
-        nn.Linear(128, 1),  # Output layer
-        nn.Sigmoid()  # Sigmoid activation for binary classification
+        nn.Linear(nodes_in_hidden_layers, 1),  # Output layer
+        nn.Sigmoid(),  # Sigmoid activation for binary classification
     )
 
     print('Model architecture:')
@@ -60,18 +61,20 @@ def train_mlp(
     loss_fn = nn.BCELoss(reduction='none') # compute loss per sample
 
     # Using Adam optimizer
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    lr=0.001
+    print(f'Using Adam optimizer with learning rate {lr}')
+    optimizer = optim.Adam(model.parameters(), lr=lr)
 
     # Training loop
     # Train on GPU if available
     if torch.cuda.is_available():
+        # Move model and data to GPU if available
+        print("Using GPU for training")
         model.to('cuda')
         X_train_tensor = X_train_tensor.to('cuda')
         y_train_tensor = y_train_tensor.to('cuda')
-        # w_train_tensor = w_train_tensor.to('cuda')
         X_val_tensor = X_val_tensor.to('cuda')
         y_val_tensor = y_val_tensor.to('cuda')
-        # w_val_tensor = w_val_tensor.to('cuda')
 
     device = next(model.parameters()).device
 
@@ -80,6 +83,7 @@ def train_mlp(
 
     starting_time = time.time()
 
+    print(f"Starting training for {num_epochs} epochs...")
     for epoch in range(num_epochs):
         model.train()
         train_loss = 0.0
@@ -117,72 +121,16 @@ def train_mlp(
     print(f"Training time: {training_time} seconds")
 
     # Save the trained model
-    torch.save(model.state_dict(), os.path.join(output_dir, 'model.pth'))
-
-    # Plot training and validation loss
-    plot_training_history(training_loss_history, validation_loss_history, num_epochs)
-    plt.savefig(os.path.join(output_dir, 'training_validation_loss.png'))
+    torch.save(model, os.path.join(output_dir, 'model.pth'))
+    # Save training history to a numpy file
+    np.savez(
+        os.path.join(output_dir, 'training_history.npz'),
+        training_loss_history=np.array(training_loss_history),
+        validation_loss_history=np.array(validation_loss_history),
+        num_epochs=num_epochs
+    )
 
     return model
-
-# Evaluate model
-def evaluate_mlp(
-    model,
-    X_train, X_test,
-    y_train, y_test,
-    output_dir='mlp'
-    ):
-    # output directory
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-
-    X_train_tensor = torch.tensor(X_train, dtype=torch.float32)
-    y_train_tensor = torch.tensor(y_train.values, dtype=torch.long)
-
-    X_test_tensor = torch.tensor(X_test, dtype=torch.float32)
-    y_test_tensor = torch.tensor(y_test.values, dtype=torch.long)
-
-    # Move model to GPU if available
-    device = next(model.parameters()).device
-    if device.type == 'cuda':
-        X_train_tensor_gpu = X_train_tensor.to('cuda')
-        X_test_tensor_gpu = X_test_tensor.to('cuda')
-        y_pred_train = model(X_train_tensor_gpu).detach().cpu().numpy().ravel()
-        y_pred_test = model(X_test_tensor_gpu).detach().cpu().numpy().ravel()
-    else:
-        y_pred_train = model(X_train_tensor).detach().numpy().ravel()
-        y_pred_test = model(X_test_tensor).detach().numpy().ravel()
-
-    # plot train vs test
-    plot_train_vs_test(
-        y_pred_train, y_train_tensor.numpy(), 
-        y_pred_test, y_test_tensor.numpy(),
-        bins=25, out_range=(0, 1), density=False,
-        xlabel="NN output", ylabel="Number of Events", title="Train vs Test"
-    )
-    plt.savefig(os.path.join(output_dir, 'train_vs_test.png'))
-
-    plot_train_vs_test(
-        y_pred_train, y_train_tensor.numpy(), 
-        y_pred_test, y_test_tensor.numpy(),
-        bins=25, out_range=(0, 1), density=True,
-        xlabel="NN output", ylabel="A.U.", title="Train vs Test"
-    )
-    plt.savefig(os.path.join(output_dir, 'train_vs_test_normalized.png'))
-
-    # Compute and plot ROC curves
-    fpr_train, tpr_train, _ = roc_curve(y_train_tensor.numpy(), y_pred_train)
-    fpr_test, tpr_test, _ = roc_curve(y_test_tensor.numpy(), y_pred_test)
-    auc_train = auc(fpr_train, tpr_train)
-    auc_test = auc(fpr_test, tpr_test)
-
-    plot_roc_curve(
-        [fpr_train, fpr_test], 
-        [tpr_train, tpr_test], 
-        [auc_train, auc_test], 
-        labels=['Train', 'Test']
-    )
-    plt.savefig(os.path.join(output_dir, 'roc_curve.png'))
 
 def feature_importance(model, feature_names, X, y, output_dir='mlp'):
     # evaluate feature importance using permutation importance
