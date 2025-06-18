@@ -15,7 +15,6 @@ from trisepmltutorial.plotting import plot_training_history, plot_train_vs_test,
 def train_mlp(
     X_train, X_val,
     y_train, y_val,
-    # w_train, w_val,
     num_epochs=20,
     output_dir='mlp'
     ):
@@ -94,8 +93,8 @@ def train_mlp(
 
             # Forward pass
             outputs = model(X_batch).squeeze()
+            # Compute loss
             loss = loss_fn(outputs, y_batch.float()).mean()
-            # weighted_loss = (loss * w_batch).mean()  # Apply weights to the loss
 
             # Backward pass and optimization
             optimizer.zero_grad()
@@ -127,7 +126,8 @@ def train_mlp(
         os.path.join(output_dir, 'training_history.npz'),
         training_loss_history=np.array(training_loss_history),
         validation_loss_history=np.array(validation_loss_history),
-        num_epochs=num_epochs
+        num_epochs=num_epochs,
+        feature_names=X_train.columns if hasattr(X_train, 'columns') else [f'feature_{i}' for i in range(X_train.shape[1])],
     )
 
     return model

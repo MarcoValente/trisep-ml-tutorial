@@ -20,6 +20,7 @@ history = np.load(history_path)
 training_loss_history = history['training_loss_history']
 validation_loss_history = history['validation_loss_history']
 num_epochs = history['num_epochs']
+feature_names = history['feature_names']
 
 # Loading the trained model
 model_path = os.path.join(output_dir, "model.pth")
@@ -79,6 +80,7 @@ plot_train_vs_test(
 plt.savefig(os.path.join(output_dir, 'train_vs_test_normalized.png'))
 
 # Compute and plot ROC curves
+
 fpr_train, tpr_train, _ = roc_curve(y_train_tensor.numpy(), y_pred_train)
 fpr_test, tpr_test, _ = roc_curve(y_val_tensor.numpy(), y_pred_test)
 auc_train = auc(fpr_train, tpr_train)
@@ -92,7 +94,7 @@ plot_roc_curve(
 )
 plt.savefig(os.path.join(output_dir, 'roc_curve.png'))
 
-# Plot the
+# Plot the feature importance
 
 model.eval()
 device = next(model.parameters()).device
@@ -107,13 +109,13 @@ baseline = roc_auc_score(y_val.values, y_pred)
 
 importances = []
 print(X_train)
-for i, vname in enumerate(X_train.columns):
+for i, vname in enumerate(feature_names):
     X_permuted = X_orig.copy()
     X_permuted[:, i] = np.random.permutation(X_permuted[:, i])
     X_tensor_perm = torch.tensor(X_permuted, dtype=torch.float32).to(device)
     with torch.no_grad():
         y_pred_perm = model(X_tensor_perm).detach().cpu().numpy().ravel()
-    score = roc_auc_score(y.values, y_pred_perm)
+    score = roc_auc_score(y_val.values, y_pred_perm)
     importances.append(baseline - score)
 
 importances = np.array(importances)
