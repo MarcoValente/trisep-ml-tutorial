@@ -61,9 +61,8 @@ print(f"Saved train/val splits to {train_val_datafname}")
 # Train model
 ###
 
-###
 # Neural network
-do_nn = True
+do_nn = False
 if do_nn:
     import trisepmltutorial.mlp as mynn
     outdir_mlp = 'models/mlp'
@@ -80,22 +79,15 @@ if do_nn:
     )
 
 # Boosted decision trees
-do_bdt = False
+do_bdt = True
 if do_bdt:
     import trisepmltutorial.bdt as mybdt
 
     outdir_bdt = "models/bdt"
 
     # Train the BDT model
-    bdt = mybdt.train_bdt(X_train, y_train, output_dir=outdir_bdt)
-
-    # Evaluate the BDT model
-    mybdt.evaluate_bdt(bdt, X_train, X_test, y_train, y_test, output_dir=outdir_bdt)
-
-    # Feature importance
-    mybdt.feature_importance(bdt, dataset_train.columns, output_dir=outdir_bdt)
-    mybdt.feature_permutation(
-        bdt, dataset_train.columns, X_test, y_test, output_dir=outdir_bdt
+    bdt = mybdt.train_bdt(
+        X_train, y_train, output_dir=outdir_bdt, features=dataset_train.columns.tolist()
     )
 
     # Learning curve
@@ -103,18 +95,3 @@ if do_bdt:
 
     # Hyperparameter tuning
     mybdt.hyperparameter_tuning(X_train, y_train, X_test, y_test)
-
-    # %%% Exercise %%%
-    # Hyperparameter tuning:
-    # - Try different values for `max_depth`, `n_estimators`, `learning_rate`
-    # - Use `GridSearchCV` or `RandomizedSearchCV` from `sklearn` to find the best parameters
-
-    # %%% Exercise %%%
-    # Try other BDT implementations:
-    # - `SKLearn`'s `GBDT`
-    # - `LightGBM`
-
-# %%% Exercise %%%
-# Compare the performance of different models:
-# - Compare the AUC scores of BDT and MLP models
-# - Compare the training time of BDT and MLP models
