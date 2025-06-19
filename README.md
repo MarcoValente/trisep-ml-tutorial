@@ -12,9 +12,7 @@ This is a **hands-on tutorial** focused on practical applications of machine lea
 
 Get ready to dive in, collaborate, and discover how machine learning can accelerate research in particle physics!
 
-
-## Exercise 3: Boosted Decision Tree (BDT) for Higgs classification
-TO ADD
-
-## Exercise 4: Comparisons of MLP and BDT performance
-Try to compare the ROC curves of the MLP and the BDT. Which one is performing better? Why?
+## Exercises:
+- [Exercise 1: Exploring the dataset](notes/exercise1.md)
+- [Exercise 2: Multi-layer perceptron (MLP) for Higgs classification](notes/exercise2.md)
+- [Exercise 3: Boosted Decision Tree (BDT) for Higgs classification](notes/exercise3.md)
