@@ -12,6 +12,14 @@ This is a **hands-on tutorial** focused on practical applications of machine lea
 
 Get ready to dive in, collaborate, and discover how machine learning can accelerate research in particle physics!
 
+## Setup:
+
+- To get started, please follow the instructions in [this setup guide](https://github.com/TRISEP-2025-ML-tutorials/Intro-notebooks/blob/main/SETTING_UP.md).
+- Then, clone this repository with:
+  ```
+  git clone https://github.com/MarcoValente/trisep-ml-tutorial.git
+  ```
+
 ## Exercises:
 - [Exercise 1: Exploring the dataset](notes/exercise1.md)
 - [Exercise 2: Multi-layer perceptron (MLP) for Higgs classification](notes/exercise2.md)
