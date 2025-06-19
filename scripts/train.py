@@ -53,10 +53,9 @@ split_data = {
     "y_val": y_val,
 }
 train_val_datafname = "data/train_val_splits.pkl"
-if not os.path.exists(train_val_datafname):
-    with open(train_val_datafname, "wb") as f:
-        pickle.dump(split_data, f)
-    print(f"Saved train/val splits to {train_val_datafname}")
+with open(train_val_datafname, "wb") as f:
+    pickle.dump(split_data, f)
+print(f"Saved train/val splits to {train_val_datafname}")
 
 ######
 # Train model
@@ -70,7 +69,15 @@ if do_nn:
     outdir_mlp = 'models/mlp'
 
     # Train the neural network
-    mlp = mynn.train_mlp(X_train, X_val, y_train, y_val, output_dir=outdir_mlp)
+    mlp = mynn.train_mlp(
+        X_train,
+        X_val,
+        y_train,
+        y_val,
+        output_dir=outdir_mlp,
+        num_epochs=20,
+        features=dataset_train.columns.tolist(),
+    )
 
 # Boosted decision trees
 do_bdt = False

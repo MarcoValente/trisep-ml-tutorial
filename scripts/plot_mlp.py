@@ -25,6 +25,7 @@ feature_names = history['feature_names']
 # Loading the trained model
 model_path = os.path.join(output_dir, "model.pth")
 model = torch.load(model_path, weights_only=False)
+model.eval()  # Set the model to evaluation mode
 print(model)
 
 # Loading validation data and trained model
@@ -95,6 +96,7 @@ plot_roc_curve(
 plt.savefig(os.path.join(output_dir, 'roc_curve.png'))
 
 # Plot the feature importance
+print('Plotting the permutation importance...')
 
 model.eval()
 device = next(model.parameters()).device
@@ -108,7 +110,7 @@ with torch.no_grad():
 baseline = roc_auc_score(y_val.values, y_pred)
 
 importances = []
-print(X_train)
+print(feature_names)
 for i, vname in enumerate(feature_names):
     X_permuted = X_orig.copy()
     X_permuted[:, i] = np.random.permutation(X_permuted[:, i])
@@ -116,18 +118,38 @@ for i, vname in enumerate(feature_names):
     with torch.no_grad():
         y_pred_perm = model(X_tensor_perm).detach().cpu().numpy().ravel()
     score = roc_auc_score(y_val.values, y_pred_perm)
+    print(f'Feature: {vname}, Importance: {baseline - score}, Baseline: {baseline}, Score: {score}')
     importances.append(baseline - score)
 
 importances = np.array(importances)
 sorted_idx = np.argsort(importances)
 
-# Plot feature importance
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
+print(f"Feature importances: {importances}")
+print(os.path.join(output_dir, "feature_importance.png"))
 
 plt.figure()
 plt.barh(np.array(feature_names)[sorted_idx], importances[sorted_idx])
 plt.xlabel('Permutation Importance')
 plt.title('Permutation Importance from MLP')
-plt.savefig(os.path.join(output_dir, 'feature_importance.png'))
+plt.savefig(os.path.join(output_dir, 'permutation_importance.png'))
+plt.close()
+
+# Feature importance using gradients
+
+X_tensor = torch.tensor(X_val.copy(), dtype=torch.float32).to(device)
+X_tensor.requires_grad = True  # Enable gradient computation
+output = model(X_tensor)
+output.mean().backward()  # Backprop on the mean output
+
+# Get average absolute gradient across all samples
+feature_importance = X_tensor.grad.abs().mean(dim=0).detach().to('cpu').numpy()
+
+sorted_idx = np.argsort(feature_importance)
+
+plt.figure()
+plt.barh(np.array(feature_names)[sorted_idx], feature_importance[sorted_idx])
+plt.xlabel("Feature name")
+plt.ylabel("Gradient-based Importance")
+plt.title("Feature Importance from Gradients")
+plt.savefig(os.path.join(output_dir, "feature_importance.png"))
 plt.close()

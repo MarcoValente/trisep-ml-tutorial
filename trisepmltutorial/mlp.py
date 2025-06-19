@@ -16,7 +16,8 @@ def train_mlp(
     X_train, X_val,
     y_train, y_val,
     num_epochs=20,
-    output_dir='mlp'
+    output_dir='mlp',
+    features=None,
     ):
     # output directory
     if not os.path.exists(output_dir):
@@ -127,8 +128,10 @@ def train_mlp(
         training_loss_history=np.array(training_loss_history),
         validation_loss_history=np.array(validation_loss_history),
         num_epochs=num_epochs,
-        feature_names=X_train.columns if hasattr(X_train, 'columns') else [f'feature_{i}' for i in range(X_train.shape[1])],
+        feature_names=features if features is not None else [f'feature_{i}' for i in range(X_train.shape[1])],
     )
+
+    print(X_train)
 
     return model
 
