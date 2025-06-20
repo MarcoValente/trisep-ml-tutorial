@@ -8,7 +8,7 @@ from pprint import pprint
 
 ######
 ## Load data
-dataset = load_dataset("data/dataWW_d1.root", "tree_event")
+dataset = load_dataset("/fast_scratch_1/TRISEP_data/BeginnerTutorial/dataWW_d1.root", "tree_event")
 
 print(f'Loaded dataset with {len(dataset)} events.')
 print(f"Dataset shape: {dataset.shape}")

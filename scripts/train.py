@@ -8,7 +8,7 @@ import os
 
 ######
 ## Load data
-dataset = load_dataset("data/dataWW_d1.root", "tree_event")
+dataset = load_dataset("/fast_scratch_1/TRISEP_data/BeginnerTutorial/dataWW_d1.root", "tree_event")
 
 ######
 # Features to train on
