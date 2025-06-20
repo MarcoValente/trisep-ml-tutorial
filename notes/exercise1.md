@@ -1,6 +1,7 @@
 
 # Exercise 1: Exploring the dataset
-<!-- The data for the exercise are collected in side `data/dataWW_d1.root`. This is a dataset composed of signal and background events for a Higgs analysis decaying to two W bosons ($H\to W^+W^-$). Inside this dataset there are many different variables that we want to explore before starting the classification task. For this task, have a look at [`scripts/explore.py`](scripts/explore.py) and execute it with -->
+
+The data for the exercise are stored in `/fast_scratch_1/TRISEP_data/BeginnerTutorial/dataWW_d1.root`. This is created from [ATLAS Open Data](https://opendata.atlas.cern/). The dataset is composed of signal and background events for a Higgs analysis decaying to two W bosons ($H\to W^+W^-$). Inside this dataset there are many different variables that we want to explore before starting the classification task. For this task, have a look at [`scripts/explore.py`](scripts/explore.py) and execute it with
 ```bash
 python scripts/explore.py
 ```
