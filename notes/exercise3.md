@@ -4,7 +4,7 @@
 Similarly to Multi-Layer Perceptrons (MLP), and Boosted Decision Trees (BDTs) can be used for classification purposes. In this second exercise, we will train this alternative network to classify the same $H\to W^+ W^-$ signal events from backgrounds as in exercise 1.
 
 
-To run the BDT training, simply set in [scripts/train.py](scripts/train.py) the following parameters:
+To run the BDT training, simply set in [scripts/train.py](../scripts/train.py) the following parameters:
 ```python
 do_nn = False
 do_bdt = True

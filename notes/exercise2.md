@@ -14,7 +14,7 @@ python scripts/train.py
 
 Once this is finished, have a look at the  script to better understand what was done.
 
-At first, the data are loaded and processed to create the training and testing samples. The testing sample is particularly important to evaluate the performance of the model after training, using some data that the network has never seen before. The dataset preparation is done inside [`trisepmltutorial/dataset.py`](trisepmltutorial/dataset.py). For the first training, we have simply included in the network the following data features:
+At first, the data are loaded and processed to create the training and testing samples. The testing sample is particularly important to evaluate the performance of the model after training, using some data that the network has never seen before. The dataset preparation is done inside [`trisepmltutorial/dataset.py`](../trisepmltutorial/dataset.py). For the first training, we have simply included in the network the following data features:
 ```python
 features = [
     "met_et",
@@ -36,7 +36,7 @@ After the training and testing datasets are built, the training of the network i
 ```bash
 mlp = mynn.train_mlp(X_train, X_val, y_train, y_val, output_dir=outdir_mlp)
 ```
-This function is defined inside [`trisepmltutorial/mlp.py`](trisepmltutorial/mlp.py). Have a look at the file and read through the code. Do you understand where and how the network is defined? Try to modify it's parameters!
+This function is defined inside [`trisepmltutorial/mlp.py`](../trisepmltutorial/mlp.py). Have a look at the file and read through the code. Do you understand where and how the network is defined? Try to modify it's parameters!
 
 After the training is done, you should see the trained network inside `models/mlp`. To make plots of the output scores, learning curves and ROC curves, just run
 ```bash
@@ -48,6 +48,6 @@ A few questions:
   - Which features are found to be the most important after the training?
 
 A few exercises:
-1. Try to increase the number of nodes in the hidden layers to 128 inside [trisepmltutorial/mlp.py](trisepmltutorial/mlp.py). Is the network doing better for classification after training? Or worse?
+1. Try to increase the number of nodes in the hidden layers to 128 inside [trisepmltutorial/mlp.py](../trisepmltutorial/mlp.py). Is the network doing better for classification after training? Or worse?
 2. Exercise: try to increase the learning rate. Is the learning time improving? Is the precision better?
 3. Exercise: try to prevent overtraining by adding dropout layers (see [nn.Dropout](https://docs.pytorch.org/docs/stable/generated/torch.nn.Dropout.html)).
