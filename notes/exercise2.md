@@ -1,7 +1,7 @@
 
 # Exercise 2: Multi-layer perceptron (MLP) for Higgs classification
 
-Classification is one of the most common tasks in High Energy Physics. Its goal is to combine various inputs from data to obtain a numbers later used to classify data in different categories. A very standard task is the background vs signal classification, where each event is assigned assigned with a class number 0 (background) and 1 (signal).
+Classification is one of the most common tasks in High Energy Physics. Its goal is to combine various inputs from data to obtain a numbers later used to classify data in different categories. A very standard task is the background vs signal classification, where each event is assigned with a class number 0 (background) and 1 (signal).
 
 In this tutorial we will try to classify $H\to W^+ W^-$ signals from background in 2-lepton final states.
 

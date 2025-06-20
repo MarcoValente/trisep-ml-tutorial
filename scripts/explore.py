@@ -46,7 +46,7 @@ reduced_dataset = pd.DataFrame(dataset, columns=features)
 print(f"Training dataset shape: {reduced_dataset.shape}")
 
 # plot features
-os.makdirs("figures")
+os.makedirs("figures")
 
 plot_features(reduced_dataset, target)
 plt.savefig("figures/features.png")
