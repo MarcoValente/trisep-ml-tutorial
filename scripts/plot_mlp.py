@@ -2,7 +2,6 @@ from trisepmltutorial.plotting import plot_training_history, plot_train_vs_test,
 import numpy as np
 import os
 import torch
-import pickle
 
 from sklearn.metrics import roc_curve, auc, roc_auc_score
 import pandas as pd

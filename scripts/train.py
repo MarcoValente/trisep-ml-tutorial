@@ -1,10 +1,7 @@
 import pandas as pd
 
-import matplotlib.pyplot as plt
-from trisepmltutorial.plotting import plot_features, plot_correlations
 from trisepmltutorial.dataset import load_dataset, preprocess_dataset
 import pickle
-import os
 
 ######
 ## Load data

@@ -6,12 +6,9 @@ import pandas as pd
 
 from xgboost import XGBClassifier
 
-from sklearn.metrics import roc_curve, auc, roc_auc_score, confusion_matrix
-from sklearn.inspection import permutation_importance
-from sklearn.model_selection import StratifiedKFold, RandomizedSearchCV, GridSearchCV
+from sklearn.metrics import roc_auc_score
+from sklearn.model_selection import StratifiedKFold, RandomizedSearchCV
 import scipy.stats as stats
-
-from trisepmltutorial.plotting import plot_train_vs_test, plot_roc_curve, plot_confusion_matrix
 
 def train_bdt(
     X_train,

@@ -1,16 +1,11 @@
 import os
 import time
-import matplotlib.pyplot as plt
 import numpy as np
 
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
-
-from sklearn.metrics import roc_curve, auc, roc_auc_score
-
-from trisepmltutorial.plotting import plot_training_history, plot_train_vs_test, plot_roc_curve
 
 def train_mlp(
     X_train, X_val,

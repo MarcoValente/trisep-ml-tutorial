@@ -1,10 +1,10 @@
-from trisepmltutorial.plotting import plot_training_history, plot_train_vs_test, plot_roc_curve, plot_confusion_matrix
+from trisepmltutorial.plotting import plot_train_vs_test, plot_roc_curve, plot_confusion_matrix
 import numpy as np
 import os
 
 from xgboost import XGBClassifier
 
-from sklearn.metrics import roc_curve, auc, roc_auc_score, confusion_matrix
+from sklearn.metrics import roc_curve, auc, confusion_matrix
 from sklearn.inspection import permutation_importance
 import pandas as pd
 import matplotlib.pyplot as plt
