@@ -59,7 +59,7 @@ print(f"Saved train/val splits to {train_val_datafname}")
 ###
 
 # Neural network
-do_nn = False
+do_nn = True
 if do_nn:
     import trisepmltutorial.mlp as mynn
     outdir_mlp = 'models/mlp'
@@ -76,7 +76,7 @@ if do_nn:
     )
 
 # Boosted decision trees
-do_bdt = True
+do_bdt = False
 if do_bdt:
     import trisepmltutorial.bdt as mybdt
 
