@@ -124,7 +124,6 @@ importances = np.array(importances)
 sorted_idx = np.argsort(importances)
 
 print(f"Feature importances: {importances}")
-print(os.path.join(output_dir, "feature_importance.png"))
 
 plt.figure()
 plt.barh(np.array(feature_names)[sorted_idx], importances[sorted_idx])
